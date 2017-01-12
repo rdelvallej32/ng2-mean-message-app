@@ -1,4 +1,5 @@
 'use strict';
+/*eslint no-process-env:0*/
 
 import express from 'express';
 import path from 'path';
@@ -6,10 +7,14 @@ import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+mongoose.Promise = require('bluebird');
 
 import appRoutes from './routes/app';
 
+const uri = process.env.MONGODB_URI || 'mongodb://localhost/ng-messenger'
 const app = express();
+mongoose.connect(uri);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
