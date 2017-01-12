@@ -9,7 +9,8 @@ var messageSchema = new Schema({
     required: true
   },
   user: {
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   }
 });
 
