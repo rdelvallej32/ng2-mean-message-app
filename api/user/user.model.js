@@ -2,6 +2,7 @@
 
 mongoose.Promise = require('bluebird');
 import mongoose, { Schema } from 'mongoose';
+import mongooseUniqueValidator from 'mongoose-unique-validator';
 
 var userSchema = new Schema({
   firstName: {
@@ -21,7 +22,11 @@ var userSchema = new Schema({
     required: true,
     unique: true
   },
-  messages: []
+  messages: [{
+    type: Schema.Types.ObjectId
+  }]
 });
+
+userSchema.plugin(mongooseUniqueValidator);
 
 export default mongoose.model('User', userSchema);
