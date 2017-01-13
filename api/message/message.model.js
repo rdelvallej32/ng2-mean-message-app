@@ -1,7 +1,8 @@
 'use strict';
 
-mongoose.Promise = require('bluebird');
 import mongoose, { Schema } from 'mongoose';
+const Promise = require('bluebird');
+Promise.promisifyAll(mongoose);
 
 var messageSchema = new Schema({
   content: {
