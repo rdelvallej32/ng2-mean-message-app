@@ -11,6 +11,7 @@ import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
 
 import appRoutes from './routes';
+import mainRoute from './routes/app';
 
 const uri = process.env.MONGODB_URI || 'mongodb://localhost/ng-messenger'
 const app = express();
@@ -32,7 +33,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(`${__dirname}`, '/../public')));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -41,7 +42,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(require('./routes/app'));
+app.use('/', mainRoute);
 app.use('/api', appRoutes)
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
