@@ -15,6 +15,10 @@ import appRoutes from './routes';
 const uri = process.env.MONGODB_URI || 'mongodb://localhost/ng-messenger'
 const app = express();
 mongoose.connect(uri);
+mongoose.connection.on('error', err => {
+  console.error(`MongoDb connection error ${err}`);
+  process.exit(-1); // eslint-disable-line no-process-exit
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
