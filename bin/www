@@ -9,9 +9,6 @@ var app = require('../app');
 var debug = require('debug')('node-rest:server');
 var http = require('http');
 
-app.use('/api/messags', require('../api/message'));
-app.use('/api/users', require('../api/user'));
-
 /**
  * Get port from environment and store in Express.
  */
