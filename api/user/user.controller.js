@@ -1,6 +1,6 @@
 'use strict';
 
-import User from './message.user';
+import User from './user.model';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
