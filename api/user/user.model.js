@@ -1,8 +1,9 @@
 'use strict';
 
-mongoose.Promise = require('bluebird');
 import mongoose, { Schema } from 'mongoose';
 import mongooseUniqueValidator from 'mongoose-unique-validator';
+const Promise = require('bluebird');
+Promise.promisifyAll(mongoose);
 
 var userSchema = new Schema({
   firstName: {
