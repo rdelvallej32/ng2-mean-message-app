@@ -10,7 +10,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
 
-import appRoutes from './routes/app';
+import appRoutes from './routes';
 
 const uri = process.env.MONGODB_URI || 'mongodb://localhost/ng-messenger'
 const app = express();
@@ -37,9 +37,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api/messages', require('./api/message'));
-app.use('/api/users', require('./api/user'));
-
+app.use('/api', appRoutes)
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
     return res.render('index');
