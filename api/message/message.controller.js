@@ -19,6 +19,7 @@ function handleError(res, statusCode) {
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
+    console.log(entity);
     return res.status(statusCode).json(entity);
   };
 }
@@ -31,9 +32,6 @@ export function index(req, res) {
 
 export function create(req, res) {
   Message.createAsync(req.body)
-    .then(message => {
-      message.save();
-    })
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
