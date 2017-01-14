@@ -41,6 +41,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(require('./routes/app'));
 app.use('/api', appRoutes)
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
