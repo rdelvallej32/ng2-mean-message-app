@@ -9,6 +9,7 @@ import { MessageInputComponent } from './messages/message-input.component';
 import { MessagesComponent } from './messages/messages.component'
 
 import { AuthenticationComponent } from './auth/authentication.component';
+import { LogoutComponent } from './auth/logout.component';
 
 import { HeaderComponent } from './shared/header.component';
 import { routing } from './app.routing';
@@ -21,6 +22,7 @@ import { routing } from './app.routing';
         MessageInputComponent,
         MessagesComponent,
         AuthenticationComponent,
+        LogoutComponent,
         HeaderComponent
     ],
     imports: [BrowserModule, FormsModule, routing],
