@@ -10,6 +10,8 @@ import { MessagesComponent } from './messages/messages.component'
 
 import { AuthenticationComponent } from './auth/authentication.component';
 import { LogoutComponent } from './auth/logout.component';
+import { SignUpComponent } from './auth/sign-up.component';
+import { SignInComponent } from './auth/sign-in.component';
 
 import { HeaderComponent } from './shared/header.component';
 import { routing } from './app.routing';
@@ -23,6 +25,8 @@ import { routing } from './app.routing';
         MessagesComponent,
         AuthenticationComponent,
         LogoutComponent,
+        SignUpComponent,
+        SignInComponent,
         HeaderComponent
     ],
     imports: [BrowserModule, FormsModule, routing],
