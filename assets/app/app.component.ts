@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Message } from './messages/message.model';
 
 @Component({
     selector: 'my-app',
@@ -7,12 +6,4 @@ import { Message } from './messages/message.model';
 })
 
 export class AppComponent {
-    messages: Message[] = [
-        new Message('Some Message', 'Bob'),
-        new Message('Patriots Suck', 'Rob')
-    ];
-
-    editClicked(message: Message, event: string) {
-        message.content = event;
-    }
 }
