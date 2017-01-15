@@ -7,4 +7,8 @@ import { Message } from './messages/message.model';
 })
 export class AppComponent {
     message: Message = new Message('Some Message', 'Bob');
+
+    editClicked(event: string) {
+        this.message.content = event;
+    }
 }
