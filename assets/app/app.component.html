@@ -4,7 +4,10 @@
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
       hiefewiohfoe
-      <app-message [message]="message" (editClicked)="editClicked($event)"></app-message>
+      <app-message *ngFor="let message of messages"
+        [message]="message"
+        (editClicked)="editClicked(message, $event)">
+      </app-message>
     </div>
   </div>
 </div>

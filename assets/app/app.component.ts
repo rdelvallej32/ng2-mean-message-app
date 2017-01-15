@@ -5,10 +5,14 @@ import { Message } from './messages/message.model';
     selector: 'my-app',
     templateUrl: './app.component.html'
 })
-export class AppComponent {
-    message: Message = new Message('Some Message', 'Bob');
 
-    editClicked(event: string) {
-        this.message.content = event;
+export class AppComponent {
+    messages: Message[] = [
+        new Message('Some Message', 'Bob'),
+        new Message('Patriots Suck', 'Rob')
+    ];
+
+    editClicked(message: Message, event: string) {
+        message.content = event;
     }
 }
