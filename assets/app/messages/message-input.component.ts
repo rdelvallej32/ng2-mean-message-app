@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
 })
 
 export class MessageInputComponent {
-
+    onSave(value: string) {
+        console.log(value);
+    }
 }
