@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MessageService } from './message.service';
 import { Message } from './message.model';
 
@@ -13,5 +14,13 @@ export class MessageInputComponent {
     onSave(value: string) {
         const message = new Message(value, 'Rob');
         this.MessageService.addMessage(message);
+    }
+
+    onSubmit(form: NgForm) {
+        const message = new Message(form.value.content, 'Robby');
+        this.MessageService.addMessage(message);
+        console.log(form);
+        // Cool function to just clean form after it was submitted!
+        form.resetForm()
     }
 }
