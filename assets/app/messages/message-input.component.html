@@ -1,5 +1,6 @@
 <!-- Using somewhat a Reactive Form here -->
 <div class="col-md-8 col-md-offset-2">
+  <h3>I am a Reactive Form!</h3>
     <div class="form-group">
       <label for="content">Content</label>
       <input type="text" id="content" class="form-control" #contentInput>
@@ -9,6 +10,7 @@
 
 <!-- Using Template Driven Style Form -->
 <div class="col-md-8 col-md-offset-2">
+  <h3>I am a <em>classic</em> Template Driven Form</h3>
   <form (ngSubmit)="onSubmit(f)" #f="ngForm">
     <div class="form-group">
       <label for="content">Content</label>
