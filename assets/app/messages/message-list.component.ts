@@ -11,8 +11,7 @@ import { MessageService } from './message.service';
         (editClicked)="editClicked(message, $event)">
       </app-message>
     </div>
-  `,
-    providers: [MessageService]
+  `
 })
 
 export class MessageListComponent implements OnInit {
