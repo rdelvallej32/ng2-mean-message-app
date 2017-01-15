@@ -9,3 +9,7 @@ dist
 /server/config/local.env.js
 npm-debug.log
 coverage
+
+# Hide compiled js files that were compiled by typescript
+assets/app/**/*.js
+assets/app/**/*.js.map
