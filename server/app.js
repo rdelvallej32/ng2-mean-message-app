@@ -42,8 +42,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use('/api', appRoutes);
 app.use('/', mainRoute);
-app.use('/api', appRoutes)
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
     return res.render('index');
