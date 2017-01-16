@@ -30,8 +30,38 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
+export function show(req, res) {
+  let messageId = req.params.id;
+  Message.findByIdAsync(messageId)
+    .then(message => {
+      if (!message) {
+        return res.status(404).end();
+      }
+      return message;
+    })
+    .then(respondWithResult(res, 200))
+    .catch(handleError(res));
+}
+
 export function create(req, res) {
   Message.createAsync(req.body)
     .then(respondWithResult(res, 201))
+    .catch(handleError(res));
+}
+
+export function update(req, res) {
+  let messageId = req.params.id;
+  if (req.body._id) {
+    delete req.body._id;
+  }
+  Message.findByIdAndUpdateAsync(messageId, req.body)
+    .then(respondWithResult(res, 204))
+    .catch(handleError());
+}
+
+export function destroy(req, res) {
+  let id = req.params.id;
+  Message.findByIdAndRemoveAsync(id)
+    .then(respondWithResult(res, 204))
     .catch(handleError(res));
 }
