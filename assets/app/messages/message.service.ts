@@ -1,6 +1,6 @@
 import { Message } from './message.model';
 import { Http, Response, Headers } from '@angular/http';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 export class MessageService {
     private messages: Message[] = [];
     private messageUrl = 'http://localhost:3000/api/messages';
+    messageIsEdit = new EventEmitter<Message>();
 
     constructor(private http: Http) { }
 
@@ -53,6 +54,10 @@ export class MessageService {
         return this.http.get(this.messageUrl)
             .map(this.extractArrayData)
             .catch(this.handleError)
+    }
+
+    editMesssage(message: Message) {
+        this.messageIsEdit.emit(message);
     }
 
     deleteMessage(message: Message) {
