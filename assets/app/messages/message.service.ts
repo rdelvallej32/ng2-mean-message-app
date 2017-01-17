@@ -1,5 +1,5 @@
 import { Message } from './message.model';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
@@ -33,7 +33,8 @@ export class MessageService {
     addMessage(message: Message) {
         this.messages.push(message);
         const body = JSON.stringify(message);
-        return this.http.post(this.messageUrl, body)
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.post(this.messageUrl, body, { headers: headers })
             .map(this.extractData)
             .catch(this.handleError);
     }
