@@ -30,6 +30,16 @@ export class MessageService {
         return Observable.throw(errMsg);
     }
 
+    private extractArrayData(res: Response) {
+        const messages = res.json();
+        let transformedMessages: Message[] = [];
+        for (let message of messages) {
+            transformedMessages.push(new Message(message.content, 'DummyData', message._id, null));
+        }
+        this.messages = transformedMessages;
+        return transformedMessages;
+    }
+
     addMessage(message: Message) {
         this.messages.push(message);
         const body = JSON.stringify(message);
@@ -40,7 +50,9 @@ export class MessageService {
     }
 
     getMessages() {
-        return this.messages;
+        return this.http.get(this.messageUrl)
+            .map(this.extractArrayData)
+            .catch(this.handleError)
     }
 
     deleteMessage(message: Message) {
