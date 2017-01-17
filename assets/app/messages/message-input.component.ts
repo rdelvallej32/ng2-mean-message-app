@@ -18,7 +18,11 @@ export class MessageInputComponent {
 
     onSubmit(form: NgForm) {
         const message = new Message(form.value.content, 'Robby');
-        this.MessageService.addMessage(message);
+        this.MessageService.addMessage(message)
+            .subscribe(
+            data => console.log(data),
+            err => console.log(err)
+            );
         console.log(form);
         // Cool function to just clean form after it was submitted!
         form.resetForm()
