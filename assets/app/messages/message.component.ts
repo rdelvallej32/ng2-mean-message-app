@@ -34,6 +34,10 @@ export class MessageComponent {
         this.editClicked.emit('A new value');
     }
 
+    onUpdate() {
+        this.messageService.editMesssage(this.message);
+    }
+
     onDelete() {
         this.messageService.deleteMessage(this.message);
     }
