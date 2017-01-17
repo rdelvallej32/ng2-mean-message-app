@@ -12,7 +12,10 @@ function validationError(res, statusCode) {
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
-    return res.status(statusCode).send(err);
+    return res.status(statusCode).json({
+      title: 'ERROR HAS OCCURRED',
+      error: err
+    });
   };
 }
 
