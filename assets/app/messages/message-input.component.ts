@@ -19,6 +19,10 @@ export class MessageInputComponent implements OnInit {
         );
     }
 
+    onClear(form: NgForm) {
+        form.resetForm();
+    }
+
     onSave(value: string) {
         const message = new Message(value, 'Rob');
         this.messageService.addMessage(message);
