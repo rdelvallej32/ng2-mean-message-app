@@ -22,7 +22,6 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
-    console.error(err);
     return res.status(statusCode).json({
       title: 'ERROR HAS OCCURRED',
       error: err
@@ -33,6 +32,7 @@ function handleError(res, statusCode) {
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
+    console.log(entity);
     if (entity) {
       return res.status(statusCode).json(entity);
     }
@@ -41,9 +41,12 @@ function respondWithResult(res, statusCode) {
 
 function saveUpdates(updates) {
   return function(entity) {
-    let updated = _.merge(entity, updates);
-    return updated.saveAsync()
-      .spread((updated) => updated);
+    var updated = _.merge(entity, updates);
+    return updated.save()
+      .then(updated => {
+        console.log(updated);
+        return updated;
+      });
   };
 }
 
@@ -81,11 +84,12 @@ export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  Message.findByIdAsync(req.params.id, req.body)
+
+  Message.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
-    .then(respondWithResult(res, 204))
-    .catch(handleError());
+    .then(respondWithResult(res))
+    .catch(handleError(res));
 }
 
 export function destroy(req, res) {
