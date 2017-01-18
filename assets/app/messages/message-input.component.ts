@@ -20,6 +20,7 @@ export class MessageInputComponent implements OnInit {
     }
 
     onClear(form: NgForm) {
+        this.message = null;
         form.resetForm();
     }
 
@@ -29,13 +30,20 @@ export class MessageInputComponent implements OnInit {
     }
 
     onSubmit(form: NgForm) {
-        const message = new Message(form.value.content, 'Robby');
-        this.messageService.addMessage(message)
-            .subscribe(
-            data => console.log(data),
-            err => console.log(err)
-            );
-        console.log(form);
+        if (this.message) {
+            // if editing
+            this.message.content = form.value.content;
+            this.message = null;
+        } else {
+            // then creating
+            const message = new Message(form.value.content, 'Robby');
+            this.messageService.addMessage(message)
+                .subscribe(
+                data => console.log(data),
+                err => console.log(err)
+                );
+            console.log(form);
+        }
         // Cool function to just clean form after it was submitted!
         form.resetForm()
     }
