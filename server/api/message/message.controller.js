@@ -9,9 +9,19 @@ function validationError(res, statusCode) {
   };
 }
 
+function handleEntityNotFound(res) {
+  return function(entity) {
+    if (!entity) {
+      return res.status(404).end();
+    }
+    return entity;
+  };
+}
+
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
+    console.error(err);
     return res.status(statusCode).json({
       title: 'ERROR HAS OCCURRED',
       error: err
@@ -22,8 +32,18 @@ function handleError(res, statusCode) {
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
   return function(entity) {
-    console.log(entity);
-    return res.status(statusCode).json(entity);
+    if (entity) {
+      return res.status(statusCode).json(entity);
+    }
+  };
+}
+
+function removeEntity(res) {
+  return function(entity) {
+    if (entity) {
+      return entity.remove()
+        .then(() => res.sendStatus(204));
+    }
   };
 }
 
@@ -36,12 +56,7 @@ export function index(req, res) {
 export function show(req, res) {
   let messageId = req.params.id;
   Message.findByIdAsync(messageId)
-    .then(message => {
-      if (!message) {
-        return res.status(404).end();
-      }
-      return message;
-    })
+    .then(handleEntityNotFound(res))
     .then(respondWithResult(res, 200))
     .catch(handleError(res));
 }
@@ -53,18 +68,19 @@ export function create(req, res) {
 }
 
 export function update(req, res) {
-  let messageId = req.params.id;
   if (req.body._id) {
     delete req.body._id;
   }
-  Message.findByIdAndUpdateAsync(messageId, req.body)
+  Message.findByIdAsync(req.params.id, req.body)
+    .then(handleEntityNotFound(res))
+    .then(saveUpdates(req.body))
     .then(respondWithResult(res, 204))
     .catch(handleError());
 }
 
 export function destroy(req, res) {
-  let id = req.params.id;
-  Message.findByIdAndRemoveAsync(id)
-    .then(respondWithResult(res, 204))
+  Message.findByIdAsync(req.params.id)
+    .then(handleEntityNotFound(res))
+    .then(removeEntity(req.body))
     .catch(handleError(res));
 }
