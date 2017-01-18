@@ -65,8 +65,7 @@ export function index(req, res) {
 }
 
 export function show(req, res) {
-  let messageId = req.params.id;
-  Message.findByIdAsync(messageId)
+  Message.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res, 200))
     .catch(handleError(res));
