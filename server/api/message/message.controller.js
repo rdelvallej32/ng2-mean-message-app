@@ -1,5 +1,6 @@
 'use strict';
 
+import _ from 'lodash';
 import Message from './message.model';
 
 function validationError(res, statusCode) {
@@ -38,11 +39,21 @@ function respondWithResult(res, statusCode) {
   };
 }
 
+function saveUpdates(updates) {
+  return function(entity) {
+    let updated = _.merge(entity, updates);
+    return updated.saveAsync()
+      .spread((updated) => updated);
+  };
+}
+
 function removeEntity(res) {
   return function(entity) {
     if (entity) {
-      return entity.remove()
-        .then(() => res.sendStatus(204));
+      return entity.removeAsync()
+        .then(function() {
+          res.status(204).end();
+        });
     }
   };
 }
