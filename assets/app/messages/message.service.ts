@@ -12,9 +12,15 @@ export class MessageService {
 
     constructor(private http: Http) { }
 
-    private extractData(res: Response) {
-        let body = res.json();
-        return body.data || {};
+    private extractData(res: Response, isNew?: Boolean) {
+        const body = res.json();
+        const message = new Message(body.content, 'DummyData', body._id, null);
+
+        if (isNew) {
+            this.messages.push(message);
+        }
+
+        return body || {};
     }
 
     private handleError(error: Response | any) {
@@ -27,7 +33,7 @@ export class MessageService {
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
-        console.error(errMsg);
+
         return Observable.throw(errMsg);
     }
 
@@ -42,17 +48,16 @@ export class MessageService {
     }
 
     addMessage(message: Message) {
-        this.messages.push(message);
         const body = JSON.stringify(message);
         const headers = new Headers({ 'Content-Type': 'application/json' });
         return this.http.post(this.messageUrl, body, { headers: headers })
-            .map(this.extractData)
+            .map((res: Response) => this.extractData(res, true))
             .catch(this.handleError);
     }
 
     getMessages() {
         return this.http.get(this.messageUrl)
-            .map(this.extractArrayData)
+            .map((res: Response) => this.extractArrayData(res))
             .catch(this.handleError)
     }
 
@@ -61,7 +66,11 @@ export class MessageService {
     }
 
     updateMessage(message: Message) {
-
+        const body = JSON.stringify(message);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.patch(`${this.messageUrl}/${message.messageId}`, body, { headers: headers })
+            .map((res: Response) => this.extractData(res))
+            .catch(this.handleError);
     }
 
     deleteMessage(message: Message) {
