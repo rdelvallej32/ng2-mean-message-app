@@ -13,6 +13,7 @@ export class MessageInputComponent implements OnInit {
 
     constructor(private messageService: MessageService) { }
 
+
     ngOnInit() {
         this.messageService.messageIsEdit.subscribe(
             (message: Message) => this.message = message
@@ -33,6 +34,11 @@ export class MessageInputComponent implements OnInit {
         if (this.message) {
             // if editing
             this.message.content = form.value.content;
+            this.messageService.updateMessage(this.message)
+                .subscribe(
+                result => console.log(result),
+                error => console.log(error)
+                );
             this.message = null;
         } else {
             // then creating
