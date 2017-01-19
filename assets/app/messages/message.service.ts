@@ -15,6 +15,7 @@ export class MessageService {
     private extractData(res: Response, isNew?: Boolean) {
         const body = res.json();
         const message = new Message(body.content, 'DummyData', body._id, null);
+        console.log(res);
 
         if (isNew) {
             this.messages.push(message);
@@ -75,5 +76,8 @@ export class MessageService {
 
     deleteMessage(message: Message) {
         this.messages.splice(this.messages.indexOf(message), 1);
+        return this.http.delete(`${this.messageUrl}/${message.messageId}`)
+            .map((res: Response) => console.log(res))
+            .catch(this.handleError);
     }
 }

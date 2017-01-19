@@ -54,7 +54,7 @@ function removeEntity(res) {
   return function(entity) {
     if (entity) {
       return entity.removeAsync()
-        .then(function() {
+        .then(() => {
           res.status(204).end();
         });
     }
@@ -95,6 +95,6 @@ export function update(req, res) {
 export function destroy(req, res) {
   Message.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
-    .then(removeEntity(req.body))
+    .then(removeEntity(res))
     .catch(handleError(res));
 }
