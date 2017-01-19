@@ -1,6 +1,7 @@
 'use strict';
 
 import User from './user.model';
+import createHash from '../utilities/crypt';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -29,8 +30,12 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
-export function create(req, res) {
-  User.createAsync(req.body)
+export function signup(req, res) {
+  let user = req.body;
+  user.password = createHash(user.password);
+  console.log(user);
+
+  User.createAsync(user)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
