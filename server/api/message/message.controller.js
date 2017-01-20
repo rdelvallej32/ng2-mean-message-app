@@ -44,7 +44,6 @@ function saveUpdates(updates) {
     var updated = _.merge(entity, updates);
     return updated.save()
       .then(updated => {
-        console.log(updated);
         return updated;
       });
   };

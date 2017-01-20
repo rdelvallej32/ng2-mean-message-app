@@ -7,5 +7,6 @@ var router = new Router();
 
 router.get('/', controller.index);
 router.post('/', controller.signup);
+router.post('/sign-in', controller.signin);
 
 module.exports = router;

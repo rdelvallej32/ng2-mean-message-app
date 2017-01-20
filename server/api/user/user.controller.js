@@ -2,11 +2,32 @@
 
 import User from './user.model';
 import crypt from '../../utilities/crypt';
+import jwt from 'jsonwebtoken';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
   return function(err) {
     return res.status(statusCode).json(err);
+  };
+}
+
+function validateCredentials(credentials, res) {
+  return function(entity) {
+    if (!crypt.comparePassword(credentials.password, entity.password)) {
+      let err = new Error('Invalid Login Credentials');
+      return res.status(401).json(err);
+    }
+    let token = jwt.sign({entity}, 'secret', {expiresIn: 7200});
+    return res.json({token, userId: entity._id});
+  };
+}
+
+function handleEntityNotFound(res) {
+  return function(entity) {
+    if (!entity) {
+      return res.status(404).end();
+    }
+    return entity;
   };
 }
 
@@ -36,5 +57,13 @@ export function signup(req, res) {
 
   User.createAsync(user)
     .then(respondWithResult(res, 201))
+    .catch(handleError(res));
+}
+
+export function signin(req, res) {
+  let query = { email: req.body.email};
+  User.findOneAsync(query)
+    .then(handleEntityNotFound(res))
+    .then(validateCredentials(req.body, res))
     .catch(handleError(res));
 }
