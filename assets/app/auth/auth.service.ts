@@ -28,4 +28,12 @@ export class AuthService {
             .catch(this.errorHandler);
     }
 
+    signin(user: User) {
+        const body = JSON.stringify(user);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.post(`${this.userUrl}/sign-in`, body, { headers: headers })
+            .map((res: Response) => this.extractData(res))
+            .catch(this.errorHandler);
+    }
+
 }
