@@ -36,4 +36,7 @@ export class AuthService {
             .catch(this.errorHandler);
     }
 
+    logout() {
+        localStorage.clear();
+    }
 }
