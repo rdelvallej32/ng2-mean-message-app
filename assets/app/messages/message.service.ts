@@ -51,7 +51,8 @@ export class MessageService {
     addMessage(message: Message) {
         const body = JSON.stringify(message);
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post(this.messageUrl, body, { headers: headers })
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        return this.http.post(`${this.messageUrl}${token}`, body, { headers: headers })
             .map((res: Response) => this.extractData(res, true))
             .catch(this.handleError);
     }
@@ -69,14 +70,16 @@ export class MessageService {
     updateMessage(message: Message) {
         const body = JSON.stringify(message);
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.patch(`${this.messageUrl}/${message.messageId}`, body, { headers: headers })
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        return this.http.patch(`${this.messageUrl}/${message.messageId}${token}`, body, { headers: headers })
             .map((res: Response) => this.extractData(res))
             .catch(this.handleError);
     }
 
     deleteMessage(message: Message) {
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
         this.messages.splice(this.messages.indexOf(message), 1);
-        return this.http.delete(`${this.messageUrl}/${message.messageId}`)
+        return this.http.delete(`${this.messageUrl}/${message.messageId}${token}`)
             .map((res: Response) => console.log(res))
             .catch(this.handleError);
     }
