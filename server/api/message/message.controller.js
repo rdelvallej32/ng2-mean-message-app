@@ -65,6 +65,7 @@ function validateCredentials(user, res) {
     if (entity.user != user) {
       return res.status(401).json({
         title: 'Not Authenticated',
+        error: { message: 'Users do not match'}
       });
     }
     return entity;
