@@ -82,7 +82,9 @@ function updateUserMessage(user, res) {
 }
 
 export function index(req, res) {
-  Message.findAsync()
+  Message.find()
+    .populate('user', 'firstName')
+    .exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
