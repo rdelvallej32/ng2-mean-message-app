@@ -23,7 +23,7 @@ function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
     return res.status(statusCode).json({
-      title: 'ERROR HAS OCCURRED',
+      title: 'Error',
       error: err
     });
   };
@@ -64,7 +64,7 @@ function validateCredentials(user, res) {
   return function(entity) {
     if (entity.user != user) {
       return res.status(401).json({
-        title: 'Not Authenticated',
+        title: 'Authentication Error',
         error: { message: 'Users do not match'}
       });
     }
