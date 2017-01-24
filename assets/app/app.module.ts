@@ -15,6 +15,8 @@ import { SignUpComponent } from './auth/sign-up.component';
 import { SignInComponent } from './auth/sign-in.component';
 import { AuthService } from './auth/auth.service';
 
+import { ErrorComponent }  from './errors/error.component';
+
 import { HeaderComponent } from './shared/header.component';
 import { routing } from './app.routing';
 
@@ -29,6 +31,7 @@ import { routing } from './app.routing';
         LogoutComponent,
         SignUpComponent,
         SignInComponent,
+        ErrorComponent,
         HeaderComponent
     ],
     imports: [
