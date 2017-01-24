@@ -60,6 +60,17 @@ function removeEntity(res) {
   };
 }
 
+function validateCredentials(user, res) {
+  return function(entity) {
+    if (entity.user != user) {
+      return res.status(401).json({
+        title: 'Not Authenticated',
+      });
+    }
+    return entity;
+  };
+}
+
 function updateUserMessage(user, res) {
   return function(entity) {
     user.messages.push(entity);
@@ -100,6 +111,7 @@ export function update(req, res) {
 
   Message.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
+    .then(validateCredentials(req.user, res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -108,6 +120,7 @@ export function update(req, res) {
 export function destroy(req, res) {
   Message.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
+    .then(validateCredentials(req.user, res))
     .then(removeEntity(res))
     .catch(handleError(res));
 }
