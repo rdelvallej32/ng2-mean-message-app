@@ -60,6 +60,16 @@ function removeEntity(res) {
   };
 }
 
+function updateUserMessage(user, res) {
+  return function(entity) {
+    user.messages.push(entity);
+    return user.save()
+      .then(() => {
+        res.status(201).json(entity);
+      });
+  };
+}
+
 export function index(req, res) {
   Message.findAsync()
     .then(respondWithResult(res))
@@ -74,8 +84,12 @@ export function show(req, res) {
 }
 
 export function create(req, res) {
-  Message.createAsync(req.body)
-    .then(respondWithResult(res, 201))
+  let message = Object.assign(req.body, {
+    user: req.user
+  });
+  Message.createAsync(message)
+    // .then(respondWithResult(res, 201))
+    .then(updateUserMessage(req.user, res))
     .catch(handleError(res));
 }
 
