@@ -14,7 +14,7 @@ export class MessageService {
 
     private extractData(res: Response, isNew?: Boolean) {
         const body = res.json();
-        const message = new Message(body.content, 'DummyData', body._id, null);
+        const message = new Message(body.content, body.user.firstName, body._id, body.user._id);
         console.log(res);
 
         if (isNew) {
@@ -42,7 +42,7 @@ export class MessageService {
         const messages = res.json();
         let transformedMessages: Message[] = [];
         for (let message of messages) {
-            transformedMessages.push(new Message(message.content, 'DummyData', message._id, null));
+            transformedMessages.push(new Message(message.content, message.user.firstName, message._id, message.user._id));
         }
         this.messages = transformedMessages;
         return transformedMessages;
