@@ -2,6 +2,8 @@ import { Message } from './message.model';
 import { Http, Response, Headers } from '@angular/http';
 import { Injectable, EventEmitter } from '@angular/core';
 
+import { ErrorService } from '../errors/error.service';
+
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -10,12 +12,11 @@ export class MessageService {
     private messageUrl = 'http://localhost:3000/api/messages';
     messageIsEdit = new EventEmitter<Message>();
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private errorService: ErrorService) { }
 
     private extractData(res: Response, isNew?: Boolean) {
         const body = res.json();
         const message = new Message(body.content, body.user.firstName, body._id, body.user._id);
-        console.log(res);
 
         if (isNew) {
             this.messages.push(message);
@@ -25,17 +26,9 @@ export class MessageService {
     }
 
     private handleError(error: Response | any) {
-        let errMsg: string;
-
-        if (error instanceof Response) {
-            const body = error.json() || '';
-            const err = body.error || JSON.stringify(body);
-            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-        } else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-
-        return Observable.throw(errMsg);
+        console.log(error.json());
+        this.errorService.handleError(error.json());
+        return Observable.throw(error.json());
     }
 
     private extractArrayData(res: Response) {
@@ -54,13 +47,13 @@ export class MessageService {
         const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
         return this.http.post(`${this.messageUrl}${token}`, body, { headers: headers })
             .map((res: Response) => this.extractData(res, true))
-            .catch(this.handleError);
+            .catch((res: Response) => this.handleError(res));
     }
 
     getMessages() {
         return this.http.get(this.messageUrl)
             .map((res: Response) => this.extractArrayData(res))
-            .catch(this.handleError)
+            .catch((res: Response) => this.handleError(res))
     }
 
     editMesssage(message: Message) {
@@ -73,7 +66,7 @@ export class MessageService {
         const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
         return this.http.patch(`${this.messageUrl}/${message.messageId}${token}`, body, { headers: headers })
             .map((res: Response) => this.extractData(res))
-            .catch(this.handleError);
+            .catch((res: Response) => this.handleError(res));
     }
 
     deleteMessage(message: Message) {
@@ -81,6 +74,6 @@ export class MessageService {
         this.messages.splice(this.messages.indexOf(message), 1);
         return this.http.delete(`${this.messageUrl}/${message.messageId}${token}`)
             .map((res: Response) => console.log(res))
-            .catch(this.handleError);
+            .catch((res: Response) => this.handleError(res));
     }
 }

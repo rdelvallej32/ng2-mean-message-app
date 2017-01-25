@@ -16,6 +16,7 @@ import { SignInComponent } from './auth/sign-in.component';
 import { AuthService } from './auth/auth.service';
 
 import { ErrorComponent }  from './errors/error.component';
+import { ErrorService } from './errors/error.service';
 
 import { HeaderComponent } from './shared/header.component';
 import { routing } from './app.routing';
@@ -41,7 +42,10 @@ import { routing } from './app.routing';
         HttpModule,
         routing
     ],
-    providers: [AuthService],
+    providers: [
+        AuthService,
+        ErrorService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

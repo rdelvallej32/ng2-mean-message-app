@@ -37,8 +37,8 @@ export class MessageInputComponent implements OnInit {
             this.messageService.updateMessage(this.message)
                 .subscribe(
                 result => console.log(result),
-                error => console.log(error)
-                );
+                // error => console.log(error)
+            );
             this.message = null;
         } else {
             // then creating
@@ -46,9 +46,9 @@ export class MessageInputComponent implements OnInit {
             this.messageService.addMessage(message)
                 .subscribe(
                 data => console.log(data),
-                err => console.log(err)
-                );
-            console.log(form);
+                // err => console.log(err)
+            );
+            // console.log(form);
         }
         // Cool function to just clean form after it was submitted!
         form.resetForm()

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 
+import { ErrorService } from '../errors/error.service';
+
 import { Observable } from 'rxjs/Observable';
 
 import { User } from './user.model';
@@ -9,7 +11,7 @@ import { User } from './user.model';
 export class AuthService {
     private userUrl = 'http://localhost:3000/api/users';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private errorService: ErrorService) { }
 
     private extractData(res: Response) {
         const body = res.json();
@@ -17,7 +19,8 @@ export class AuthService {
     }
 
     private errorHandler(err: Response | any) {
-        Observable.throw(err.json());
+        this.errorService.handleError(err.json());
+        return Observable.throw(err.json());
     }
 
     signup(user: User) {
