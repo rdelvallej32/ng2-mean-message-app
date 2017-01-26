@@ -8,14 +8,14 @@ import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import config from './config/environment';
 mongoose.Promise = require('bluebird');
 
 import appRoutes from './routes';
 import mainRoute from './routes/app';
 
-const uri = process.env.MONGODB_URI || 'mongodb://localhost/ng-messenger'
 const app = express();
-mongoose.connect(uri);
+mongoose.connect(config.mongo.uri);
 mongoose.connection.on('error', err => {
   console.error(`MongoDb connection error ${err}`);
   process.exit(-1); // eslint-disable-line no-process-exit
