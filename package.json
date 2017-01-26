@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./server/bin/www",
+    "start": "node ./dist/bin/www",
     "build": "del-cli public/js/app && webpack --config webpack.config.dev.js --progress --profile --watch",
-    "build:prod": "del-cli public/js/app && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli 'public/js/app/**/*.js' 'public/js/app/**/*.js.map' '!public/js/app/bundle.js' '!public/js/app/*.chunk.js' 'assets/app/**/*.ngfactory.ts' 'assets/app/**/*.shim.ts'"
+    "build:prod": "del-cli public/js/app && ngc -p tsconfig.aot.json && ngc -p tsconfig.aot.json && webpack --config webpack.config.prod.js --progress --profile --bail && del-cli 'public/js/app/**/*.js' 'public/js/app/**/*.js.map' '!public/js/app/bundle.js' '!public/js/app/*.chunk.js' 'assets/app/**/*.ngfactory.ts' 'assets/app/**/*.shim.ts'",
+    "clean": "rm -rf dist && mkdir dist",
+    "build-server": "babel -d ./dist ./server -s",
+    "build:prod-server": "npm run clean && npm run build-server"
   },
   "dependencies": {
     "@angular/common": "2.0.1",
@@ -45,6 +48,7 @@
     "angular2-router-loader": "^0.3.2",
     "angular2-template-loader": "^0.5.0",
     "awesome-typescript-loader": "^2.2.4",
+    "babel-cli": "^6.22.2",
     "babel-core": "^6.21.0",
     "babel-eslint": "^7.1.1",
     "babel-preset-es2015": "^6.18.0",
