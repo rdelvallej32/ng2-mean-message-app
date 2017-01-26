@@ -9,7 +9,7 @@ import { User } from './user.model';
 
 @Injectable()
 export class AuthService {
-    private userUrl = 'http://localhost:3000/api/users';
+    private userUrl = 'https://ng2-mean-message-app.herokuapp.com/api/users';
 
     constructor(private http: Http, private errorService: ErrorService) { }
 

@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class MessageService {
     private messages: Message[] = [];
-    private messageUrl = 'http://localhost:3000/api/messages';
+    private messageUrl = 'https://ng2-mean-message-app.herokuapp.com/api/messages';
     messageIsEdit = new EventEmitter<Message>();
 
     constructor(private http: Http, private errorService: ErrorService) { }
